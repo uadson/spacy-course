@@ -6,13 +6,11 @@ Por que usar o Comparador e não somente expressões regulares?
     - Utiliza a previsão de um modelo
     - Exemplo: "duck" (verbo) vs. "duck" (substantivo)
 
-Além de comparar com texto (strings), que é o caso das expressões regulares, o Comparador
-(Matcher) também analisa os objetos Doc e Token.
-Ele é bem mais flexível: você pode fazer a comparação no texto mas também nos seus atributos
-léxicos.
+Além de comparar com texto (strings), que é o caso das expressões regulares, o Comparador(Matcher) também analisa os
+objetos Doc e Token.
+Ele é bem mais flexível: você pode fazer a comparação no texto mas também nos seus atributos léxicos.
 Você pode até criar regras que usam previsões de um modelo.
-Por exemplo, você pode procurar a palavra "duck" (em inglês) somente se for um verbo e não
-um substantivo.
+Por exemplo, você pode procurar a palavra "duck" (em inglês) somente se for um verbo e não um substantivo.
 
 --- Expressões de correspondência ---
 
@@ -28,16 +26,16 @@ um substantivo.
     [{"LEMMA": "buy"}, {"POS": "NOUN"}]
 
 
-As expressões de correspondência são listas de dicionários. Cada dicionário se relaciona a
-um token. As chaves são os nomes dos atributos dos tokens, mapeadas para os valores
-esperados.
+As expressões de correspondência são listas de dicionários.
+Cada dicionário se relaciona a um token.
+As chaves são os nomes dos atributos dos tokens, mapeadas para os valores esperados.
 Neste exemplo, estamos procurando por dois tokens com o texto: "iPhone" e "X".
-Podemos fazer a correspondência de acordo com outros atributos dos tokens. Neste exemplo
-estamos procurando dois tokens cuja forma em letras minúsculas corresponda a "iphone" e "x".
-Podemos até escrever expressões usando atributos previstos por um modelo. Neste exemplo
-estamos procurando um token cujo lema seja "buy" seguido de um substantivo. O lema é o
-formato base da palavra, então esta expressão terá correspondência com frases como "buying
-milk" ou "bought flowers".
+Podemos fazer a correspondência de acordo com outros atributos dos tokens.
+Neste exemplo estamos procurando dois tokens cuja forma em letras minúsculas corresponda a "iphone" e "x".
+Podemos até escrever expressões usando atributos previstos por um modelo.
+Neste exemplo estamos procurando um token cujo lema seja "comprar" seguido de um substantivo.
+O lema é o formato base da palavra, então esta expressão terá correspondência com frases como "comprar livros"
+ou "comprando livros".
 """
 
 """
@@ -45,10 +43,9 @@ Para usar uma expressão, devemos importar o comparador spacy.matcher.
 É necessário carregar um fluxo (pipeline) de processamento e criar um objeto nlp.
 O comparador será inicializado com o vocabulário nlp.vocab. 
 O método matcher.add permite adicionar uma expressão ao comparador. 
-O primeiro argumento é o identificador único da expresssão que terá 
-correspondência no texto. O segundo argumento é uma lista de expressões de correspondência.
-Para fazer a correspondência de uma expressão em um texto, 
-chame o comparador (matcher) e passe o texto como parâmetro.
+O primeiro argumento é o identificador único da expresssão que terá correspondência no texto. 
+O segundo argumento é uma lista de expressões de correspondência.
+Para fazer a correspondência de uma expressão em um texto, chame o comparador (matcher) e passe o texto como parâmetro.
 Ele retornará as correspondências.
 """
 print("\n1")
@@ -75,10 +72,10 @@ matches = matcher(doc)
 
 """
 Quando você usa o comparador em um documento (doc), ele retorna uma lista de tuplas.
-Cada tupla consiste em três valores: o ID a expressão, o índice inicial e o índice final 
-da partição em que houve correspondência.
-Desta forma é possível iterar nas correspondências e criar um objeto partição 
-Span : a parte do texto correspondente (do índice inicial até o índice final).
+Cada tupla consiste em três valores: o ID a expressão, o índice inicial e o índice final da partição em que houve 
+correspondência.
+Desta forma é possível iterar nas correspondências e criar um objeto partição Span : a parte do texto correspondente 
+(do índice inicial até o índice final).
 """
 
 # Iterar nas correspondências
@@ -145,7 +142,6 @@ nlp = spacy.load("pt_core_news_md")
 matcher = Matcher(nlp.vocab)
 pattern = [
     {"POS": "PRON"},
-    # {"LEMMA": "amar", "POS": "VERB"},
     {"POS": "VERB"},
     {"POS": "NOUN"},
 ]
@@ -179,7 +175,6 @@ use-os com sabedoria.
 
 """
 pattern = [
-    # {"LEMMA": "comprar"},
     {"POS": "VERB"},
     {"POS": "DET", "OP": "?"},
     {"POS": "NOUN"},

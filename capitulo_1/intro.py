@@ -1,12 +1,12 @@
 """
-No centro do spaCy está o objeto que contém o pipeline de processamento. Normalmente,
-chamamos essa variável de “nlp”.
+No centro do spaCy está o objeto que contém o pipeline de processamento.
+Normalmente, chamamos essa variável de “nlp”.
 Por exemplo, para criar um objeto nlp em português, você pode importar o spacy e usar o método
-spacy.blank para criar um pipeline em português em branco. Você pode usar o objeto nlp como
-uma função para analisar o texto.
+spacy.blank para criar um pipeline em português em branco.
+Você pode usar o objeto nlp como uma função para analisar o texto.
 Ele contém todos os diferentes componentes do pipeline.
-Ele também inclui regras específicas do idioma usadas para tokenizar o texto em palavras e
-pontuação. O spaCy oferece suporte a uma variedade de idiomas.
+Ele também inclui regras específicas do idioma usadas para tokenizar o texto em palavras e pontuação.
+O spaCy oferece suporte a uma variedade de idiomas.
 """
 
 # Objeto nlp
@@ -19,9 +19,10 @@ nlp = spacy.blank("pt")
 
 """
 Quando você processa um texto com o objeto nlp, o spaCy cria um objeto Doc - abreviação de 
-“document” (documento). O Doc permite que você acesse informações sobre o texto de forma 
-estruturada e nenhuma informação é perdida. A propósito, o Doc se comporta como uma sequência 
-Python normal e permite que você itere sobre seus tokens ou obtenha um token pelo seu índice. 
+“document” (documento). 
+O Doc permite que você acesse informações sobre o texto de forma estruturada e nenhuma informação é perdida. 
+A propósito, o Doc se comporta como uma sequência Python normal e permite que você itere sobre seus tokens ou 
+obtenha um token pelo seu índice. 
 """
 
 # Objeto Doc
@@ -45,10 +46,10 @@ Há livros escritos para evitar espaços vazios na estante. Carlos Drummond de A
 
 """
 ---- TOKEN ----
-Os objetos token representam os tokens em um documento, por exemplo, uma palavra ou um 
-caractere de pontuação. Para obter um token em uma posição específica, você pode indexar o 
-documento. Os objetos token também fornecem vários atributos que permitem acessar mais 
-informações sobre os tokens. Por exemplo, o atributo .text retorna o texto literal do token.
+Os objetos token representam os tokens em um documento, por exemplo, uma palavra ou um caractere de pontuação. 
+Para obter um token em uma posição específica, você pode indexar o documento. 
+Os objetos token também fornecem vários atributos que permitem acessar mais informações sobre os tokens. 
+Por exemplo, o atributo .text retorna o texto literal do token.
 """
 
 # Objeto Token
@@ -65,8 +66,7 @@ print(token_1.text)
 Um objeto Span é uma fatia do documento que consiste em um ou mais tokens. 
 Ele é apenas uma visualização do documento e não contém nenhum dado em si.
 Para criar uma extensão, você pode usar a notação de fatia do Python. 
-Por exemplo, 1:3 criará uma fatia a partir do token na posição 1, 
-até - mas não incluindo! - o token na posição 3.
+Por exemplo, 1:3 criará uma fatia a partir do token na posição 1, até - mas não incluindo! - o token na posição 3.
 """
 
 # Objeto span
@@ -85,8 +85,8 @@ Aqui você pode ver alguns dos atributos de token disponíveis:
 -- is_alpha --, -- is_punct -- e -- like_num -- retornam valores booleanos que indicam se o 
 token consiste em caracteres alfabéticos, se é pontuação ou se é semelhante a um número. 
 Por exemplo, um token “10” - um, zero - ou a palavra “dez” - D, E, Z.
-Esses atributos também são chamados de atributos lexicais: eles se referem à entrada no 
-vocabulário e não dependem do contexto do token.
+Esses atributos também são chamados de atributos lexicais: eles se referem à entrada no vocabulário e não dependem 
+do contexto do token.
 """
 
 doc = nlp("O preço médio da picanha em 2024 foi de R$ 71,00")
