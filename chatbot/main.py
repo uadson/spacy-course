@@ -11,7 +11,6 @@ database = {
 }
 
 # Processar perguntas
-from pprint import pprint as p
 import spacy
 
 nlp = spacy.load("pt_core_news_md")
@@ -39,7 +38,7 @@ def find_answer(user_question):
 while True:
     user_question = input("You: ")
     if user_question.lower() == "sair":
-        p("Bot: bye, bye!")
+        print("Bot: bye, bye!")
         break
     answer = find_answer(user_question)
-    p(str(f"Bot: {answer}"))
+    print(f"Bot: {answer}")
