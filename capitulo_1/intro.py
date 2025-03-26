@@ -15,7 +15,7 @@ import spacy
 # python -m spacy download pt_core_news_sm
 # para instalar o pacote com o idioma em português
 
-nlp = spacy.load("pt_core_news_sm")
+nlp = spacy.blank("pt")
 
 """
 Quando você processa um texto com o objeto nlp, o spaCy cria um objeto Doc - abreviação de 

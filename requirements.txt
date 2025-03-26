@@ -1,5 +1,6 @@
 annotated-types==0.7.0
 blis==1.2.0
+cachetools==5.5.2
 catalogue==2.0.10
 certifi==2025.1.31
 charset-normalizer==3.4.1
@@ -7,6 +8,17 @@ click==8.1.8
 cloudpathlib==0.21.0
 confection==0.1.5
 cymem==2.0.11
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
+google-ai-generativelanguage==0.6.15
+google-api-core==2.24.2
+google-api-python-client==2.165.0
+google-auth==2.38.0
+google-auth-httplib2==0.2.0
+google-generativeai==0.8.4
+googleapis-common-protos==1.69.2
+grpcio==1.71.0
+grpcio-status==1.71.0
+httplib2==0.22.0
 idna==3.10
 Jinja2==3.1.6
 langcodes==3.5.0
@@ -19,11 +31,19 @@ murmurhash==1.0.12
 numpy==2.2.4
 packaging==24.2
 preshed==3.0.9
+proto-plus==1.26.1
+protobuf==5.29.4
+pt_core_news_md @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_md-3.8.0/pt_core_news_md-3.8.0-py3-none-any.whl#sha256=54382cda034e41f3ec605ceeb924cd6cfdbced00a65f7afa12218520ba7008c5
+pt_core_news_sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl#sha256=c304fa04db3af73cd08a250feacf560506e15a2ec2469bd1b09f06847f6b455c
+pyasn1==0.6.1
+pyasn1_modules==0.4.1
 pydantic==2.10.6
 pydantic_core==2.27.2
 Pygments==2.19.1
+pyparsing==3.2.3
 requests==2.32.3
 rich==13.9.4
+rsa==4.9
 setuptools==78.0.2
 shellingham==1.5.4
 smart-open==7.1.0
@@ -35,6 +55,7 @@ thinc==8.3.4
 tqdm==4.67.1
 typer==0.15.2
 typing_extensions==4.12.2
+uritemplate==4.1.1
 urllib3==2.3.0
 wasabi==1.1.3
 weasel==0.4.1

@@ -48,7 +48,11 @@ Cada correspondência é uma tupla consistindo de um identificador ID, e o índi
 
 print("\n1")
 import spacy
+import json
+import os
 from spacy.matcher import Matcher
+from spacy.matcher import PhraseMatcher
+from spacy.tokens import Span
 
 nlp = spacy.load("pt_core_news_md")
 matcher = Matcher(nlp.vocab)
@@ -129,7 +133,6 @@ Ao invés de uma lista de dicionários, passamos um objeto Doc como expressão.
 Nós podemos iterar nos resultados da comparação, que contêm o identificador (ID) da comparação, e o início e o 
 final da equivalência. Isso permite criar objetos partição Span e analisá-los em um contexto.
 """
-from spacy.matcher import PhraseMatcher
 
 matcher = PhraseMatcher(nlp.vocab)
 pattern = nlp("Golden Retriever")
@@ -141,3 +144,102 @@ for match_id, start, end in matcher(doc):
     # Obter a participação que houve correspondência
     span = doc[start:end]
     print(f"Partição: {span.text}")
+
+print("\n4")
+"""
+Pattern 1. Correspondência de todas as combinações de maiúsculas e minúsculas de "Amazon" seguido de um substantivo próprio
+iniciado com letra maiúscula.
+
+Pattern 2. Correspondência de todas as combinações maiúsculas e minúsculas de "sem anúncios", precedido de um
+substantivo.
+"""
+
+doc = nlp(
+    " Twitch Prime, um programa de regalias para os membros da Amazon Prime que "
+    " oferece saques gratuitos, jogos e outros benefícios, está abandonando uma "
+    " de suas melhores funcionalidades: visualização sem anúncios . De acordo com "
+    " um email enviado hoje aos membros da Amazon Prime, a partir de 14 de Setembro, "
+    " a visualização sem anúncios não estará mais inclusa no Twitch Prime para novos "
+    " membros. No entanto, membros com assinaturas anuais poderão desfrutar da "
+    " visualização sem anúncios até o momento da renovação da assinatura. Aqueles com "
+    " assinaturas mensais terão acesso à visualização sem anúncios até 15 de Outubro."
+)
+
+pattern1 = [
+    {"LOWER": "amazon"},  # maiúsculas e minúsculas
+    {
+        "IS_TITLE": True,
+        "POS": "PROPN",
+    },  # seguido de um substantivo próprio iniciado com a letra maiúscula
+]
+
+pattern2 = [
+    {"POS": "NOUN"},  # substantivo
+    {"LOWER": "sem"},  # maiúsculas e minúsculas
+    {"LOWER": "anúncios"},  # maiúsculas e minúsculas
+]
+
+matcher = Matcher(nlp.vocab)
+matcher.add("PATTERN1", [pattern1])
+matcher.add("PATTERN2", [pattern2])
+
+print(f"Quantidade de correspondências: {len(matcher(doc))}")
+for match_id, start, end in matcher(doc):
+    print(doc.vocab.strings[match_id], doc[start:end].text)
+
+"""
+--- Localizar nomes de países no texto ---
+
+Muitas vezes é mais eficiente fazer a correspondência exata dos textos ao invés de escrever expressões descrevendo
+os tokens individualmente. Esse é o caso de categorias finitas, como por exemplo, lista dos países do mundo.
+Nós já temos uma lista de países, então vamos usá-la como base para o nosso roteiro. A lista com os nomes está
+disponível na variável COUNTRIES.
+"""
+print("\n5")
+
+with open(
+    f"{os.path.join(os.getcwd(), 'capitulo_2', 'countries.json')}", encoding="utf-8"
+) as file:
+    COUNTRIES = json.loads(file.read())
+
+with open(
+    f"{os.path.join(os.getcwd(), 'capitulo_2', 'paises.txt')}", encoding="utf-8"
+) as file:
+    TEXT = file.read()
+
+doc = nlp("A República Tcheca deve ajudar a Eslováquia a proteger seu espaço aéreo.")
+
+matcher = PhraseMatcher(nlp.vocab)
+
+patterns = list(nlp.pipe(COUNTRIES))
+matcher.add("COUNTRY", patterns)
+
+matches = matcher(doc)
+print(f"Correspondências: {[doc[start:end] for match_id, start, end in matches]}")
+
+print("\n6")
+"""
+Vamos usar esse comparador em um texto maior, fazer análise sintática e atualizar as entidades do documento com os
+países encontrados.
+"""
+
+# Criar um doc e reiniciar (zerar) as entidades existentes
+doc = nlp(TEXT)
+doc.ents = []
+
+# Iterar nos resultados do combinador
+for match_id, start, end in matcher(doc):
+    # Criar uma partição Span com o marcador para "GPE"
+    span = Span(doc, start, end, label="GPE")
+
+    # Atualizar doc.ents com essa partição
+    doc.ents = list(doc.ents) + [span]
+
+    # Identificar o token inicial da partição
+    span_root_head = span.root.head
+
+    # Imprimir o texto to token inicial da partição e texto da partição
+    print(span_root_head.text, "-->", span.text)
+
+# Imprimir as entidades do documento
+print([(ent.text, ent.label_) for ent in doc.ents if ent.label_ == "GPE"])
